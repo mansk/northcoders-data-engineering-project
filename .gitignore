@@ -4,3 +4,4 @@ venv/
 *.tfstate
 *.tfstate.*
 .env
+requirements.txt
