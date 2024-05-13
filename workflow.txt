@@ -1,0 +1,42 @@
+BRAINSTORM TASKS UP TO INGESTION:
+
+Terraform:
+- ingestion s3 bucket✅
+- iam credentials✅
+- state bucket✅
+- lambda function creation✅
+- configure s3 bucket permissions✅
+- iam for lambda✅
+
+
+- cloudwatch for lambda
+- eventbridge to trigger lambda
+- sns topic for email notification
+
+
+Database extraction:
+- 
+
+
+s3 ingestion lambda:
+- csv format
+- connection to Database
+- specify bucket location
+- create prefixes in bucket for each table
+- use of boto to ingest data into buckets created with tf
+
+
+
+
+
+
+questions?
+
+How do we record deleted records?
+
+
+
+
+
+
+
