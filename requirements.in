@@ -4,3 +4,4 @@ pytest-cov
 moto
 pg8000
 pandas
+pytest-testdox
