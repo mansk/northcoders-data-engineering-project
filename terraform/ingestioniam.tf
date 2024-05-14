@@ -33,7 +33,7 @@ resource "aws_iam_policy" "ingestion_lambda_s3_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_s3_policy_attachment" {
-    role = aws_iam_role.ingestion_lambda_role.arn
+    role = aws_iam_role.ingestion_lambda_role.name
     policy_arn = aws_iam_policy.ingestion_lambda_s3_policy.arn
 }
 
@@ -63,6 +63,6 @@ resource "aws_iam_policy" "ingestion_lambda_logs_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_logs_policy_attachment" {
-    role = aws_iam_role.ingestion_lambda_role.arn
+    role = aws_iam_role.ingestion_lambda_role.name
     policy_arn = aws_iam_policy.ingestion_lambda_logs_policy.arn
 }

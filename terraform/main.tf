@@ -14,6 +14,7 @@ terraform {
     backend "s3" {
         bucket = "de-watershed-terraform-config"
         key = "tfstate.tfstate"
+        region = "eu-west-2"
     }
 }
 
