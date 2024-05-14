@@ -1,13 +1,21 @@
 import pytest
 import datetime
-from src.ingestion_lambda.lambda_handler import get_table
+from src.connect import connect_db
+from src.ingestion_lambda.utils.get_table import get_table
 from decimal import Decimal
 from types import NoneType
 
 
+@pytest.fixture(scope='function')
+def conn():
+    connection = connect_db()
+    yield connection
+    connection.close()
+
+
 # Data insertion
-def test_get_table_returns_correct_types_for_currency_table():
-    results = get_table("currency")
+def test_get_table_returns_correct_types_for_currency_table(conn):
+    results = get_table("currency", conn)
     for result in results:
         assert isinstance(result["currency_id"], int)
         assert isinstance(result["currency_code"], str)
@@ -15,8 +23,8 @@ def test_get_table_returns_correct_types_for_currency_table():
         assert isinstance(result["last_updated"], datetime.datetime)
 
 
-def test_get_table_returns_correct_types_for_counterparty_table():
-    results = get_table("counterparty")
+def test_get_table_returns_correct_types_for_counterparty_table(conn):
+    results = get_table("counterparty", conn)
     for result in results:
         assert isinstance(result["counterparty_id"], int)
         assert isinstance(result["counterparty_legal_name"], str)
@@ -27,8 +35,8 @@ def test_get_table_returns_correct_types_for_counterparty_table():
         assert isinstance(result["last_updated"], datetime.datetime)
 
 
-def test_get_table_returns_correct_types_for_department_table():
-    results = get_table("department")
+def test_get_table_returns_correct_types_for_department_table(conn):
+    results = get_table("department", conn)
     for result in results:
         assert isinstance(result["department_id"], int)
         assert isinstance(result["department_name"], str)
@@ -38,8 +46,8 @@ def test_get_table_returns_correct_types_for_department_table():
         assert isinstance(result["last_updated"], datetime.datetime)
 
 
-def test_get_table_returns_correct_types_for_design_table():
-    results = get_table("design")
+def test_get_table_returns_correct_types_for_design_table(conn):
+    results = get_table("design", conn)
     for result in results:
         design_id, created_at, last_updated, design_name, file_location, file_name = (
             result
@@ -51,8 +59,8 @@ def test_get_table_returns_correct_types_for_design_table():
         assert isinstance(result["last_updated"], datetime.datetime)
 
 
-def test_get_table_returns_correct_types_for_staff_table():
-    results = get_table("staff")
+def test_get_table_returns_correct_types_for_staff_table(conn):
+    results = get_table("staff", conn)
     for result in results:
         assert isinstance(result["staff_id"], int)
         assert isinstance(result["first_name"], str)
@@ -63,8 +71,8 @@ def test_get_table_returns_correct_types_for_staff_table():
         assert isinstance(result["last_updated"], datetime.datetime)
 
 
-def test_get_table_returns_correct_types_for_salesOrder_table():
-    results = get_table("sales_order")
+def test_get_table_returns_correct_types_for_salesOrder_table(conn):
+    results = get_table("sales_order", conn)
     for result in results:
         assert isinstance(result["sales_order_id"], int)
         assert isinstance(result["design_id"], int)
@@ -80,8 +88,8 @@ def test_get_table_returns_correct_types_for_salesOrder_table():
         assert isinstance(result["last_updated"], datetime.datetime)
 
 
-def test_get_table_returns_correct_types_for_address_table():
-    results = get_table("address")
+def test_get_table_returns_correct_types_for_address_table(conn):
+    results = get_table("address", conn)
     for result in results:
         assert isinstance(result["address_id"], int)
         assert isinstance(result["district"], (str, NoneType))
@@ -95,8 +103,8 @@ def test_get_table_returns_correct_types_for_address_table():
         assert isinstance(result["last_updated"], datetime.datetime)
 
 
-def test_get_table_returns_correct_types_for_purchase_order_table():
-    results = get_table("purchase_order")
+def test_get_table_returns_correct_types_for_purchase_order_table(conn):
+    results = get_table("purchase_order", conn)
     for result in results:
         assert isinstance(result["purchase_order_id"], int)
         assert isinstance(result["staff_id"], int)
@@ -112,8 +120,8 @@ def test_get_table_returns_correct_types_for_purchase_order_table():
         assert isinstance(result["last_updated"], datetime.datetime)
 
 
-def test_get_table_returns_correct_types_for_payment_type_table():
-    results = get_table("payment_type")
+def test_get_table_returns_correct_types_for_payment_type_table(conn):
+    results = get_table("payment_type", conn)
     for result in results:
         assert isinstance(result["payment_type_id"], int)
         assert isinstance(result["payment_type_name"], str)
@@ -121,8 +129,8 @@ def test_get_table_returns_correct_types_for_payment_type_table():
         assert isinstance(result["last_updated"], datetime.datetime)
 
 
-def test_get_table_returns_correct_types_for_payment_table():
-    results = get_table("payment")
+def test_get_table_returns_correct_types_for_payment_table(conn):
+    results = get_table("payment", conn)
     for result in results:
         assert isinstance(result["payment_id"], int)
         assert isinstance(result["transaction_id"], int)
