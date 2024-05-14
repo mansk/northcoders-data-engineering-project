@@ -3,7 +3,8 @@ import datetime
 import json
 import logging
 from src.connect import connect_db
-from pg8000.native import identifier
+from src.ingestion_lambda.utils.get_table import get_table
+from src.ingestion_lambda.utils.convert_results_to_json_lines import convert_results_to_json_lines
 
 
 client = boto3.client("s3")
@@ -11,17 +12,38 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-def get_table(table_name):
+def lambda_handler():
+    timestamp = datetime.datetime.now()
+    timestamp_string = timestamp.strftime("%Y-%m-%d_%H-%M-%S")
+
+    #Check S3 bucket for timestamp of last successful execution?
+
+    tables = [
+        "counterparty", "currency", "department", "design", "staff",
+        "sales_order", "address", "payment", "purchase_order", "payment_type",
+        "transaction"
+        ]
+
     conn = None
+
+    results = {}
+    output = {}
+
     try:
         conn = connect_db()
-        query = f"SELECT * FROM {identifier(table_name)} LIMIT 10;"
-        result = conn.run(query)
-        output_list = [
-            dict(zip([column["name"] for column in conn.columns], r)) for r in result
-        ]
-        return output_list
+    except Exception as e:
+        logger.error(e)
 
-    finally:
-        if conn:
-            conn.close()
+    for table in tables:
+        try:
+            results[table] = get_table(table, conn)
+            logger.info(f'get_table ran successfully on table \'{table}\'')
+        except Exception as e:
+            logger.error(e)
+
+    for table in results:
+        if results[table]:
+            output[table] = convert_results_to_json_lines(results[table])
+
+
+    #Create file in S3 bucket with filename equal to timestamp string?
