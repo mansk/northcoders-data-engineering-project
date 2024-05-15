@@ -14,3 +14,10 @@ data "archive_file" "lambda_ingestion_source" {
     output_path = "${path.module}/../zip/ingestion.zip"
     source_dir = "${path.module}/../src/ingestion/"
 }
+
+resource "aws_lambda_permission" "allow_eventbridge" {
+  action = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.ingestion_lambda.arn
+  principal = "events.amazonaws.com"
+  source_arn = aws_cloudwatch_event_rule.ingestion_scheduler.arn
+}
