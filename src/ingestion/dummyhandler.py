@@ -6,5 +6,5 @@ logger.setLevel(logging.INFO)
 
 def dummy_handler(event, context):
 
-    logger.info('hello')
-    logger.error('checking for errors')
+    logger.info('watershed')
+    logger.error('There is an error message')

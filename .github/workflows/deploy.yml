@@ -3,7 +3,7 @@ name: de-watershed-ci/cd
 on:
   push:
     branches:
-      - yaml
+      - main
 
 jobs:
   run-tests:

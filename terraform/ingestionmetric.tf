@@ -17,10 +17,9 @@ resource "aws_cloudwatch_metric_alarm" "ingestion_metric_" {
   evaluation_periods        = 1
   metric_name               = "${aws_cloudwatch_log_metric_filter.ingestion_metric_filter.metric_transformation[0].name}"
   namespace                 = "${aws_cloudwatch_log_metric_filter.ingestion_metric_filter.metric_transformation[0].namespace}"
-  period                    = 120
+  period                    = 30
   statistic                 = "Sum"
-  threshold                 = 0
+  threshold                 = 0.5
   alarm_actions = [aws_sns_topic.sns_error.arn]
   alarm_description         = "This metric monitors error messages"
-  #insufficient_data_actions = []
 }
