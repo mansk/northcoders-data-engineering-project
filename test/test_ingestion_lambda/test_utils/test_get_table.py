@@ -1,6 +1,6 @@
 import pytest
 import datetime
-from src.connect import connect_db
+from src.ingestion_lambda.utils.connect import connect_db
 from src.ingestion_lambda.utils.get_table import get_table
 from decimal import Decimal
 from types import NoneType
@@ -144,3 +144,12 @@ def test_get_table_returns_correct_types_for_payment_table(conn):
         assert isinstance(result["counterparty_ac_number"], int)
         assert isinstance(result["created_at"], datetime.datetime)
         assert isinstance(result["last_updated"], datetime.datetime)
+
+
+def test_get_table_correctly_implements_timestamp_constraint(conn):
+    five_hours_ago = datetime.datetime.now() - datetime.timedelta(hours=5)
+
+    results = get_table("sales_order", conn, five_hours_ago)
+    for result in results:
+        assert (result["last_updated"]
+                > five_hours_ago)
