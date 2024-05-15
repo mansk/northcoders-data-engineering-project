@@ -67,5 +67,7 @@ def lambda_handler():
             f'{table}/{curr_timestamp_string}.jsonl',
             output[table]
         )
+        logger.info(f'Data for table \'{table}\' successfully written to S3')
+
 
     set_parameter(TIMESTAMP_PARAM, curr_timestamp.isoformat())
