@@ -2,9 +2,9 @@ import boto3
 import datetime
 import json
 import logging
-from utils.connect import connect_db
-from utils.get_table import get_table
-from utils.convert_results_to_json_lines import convert_results_to_json_lines
+from .utils.connect import connect_db
+from .utils.get_table import get_table
+from .utils.convert_results_to_json_lines import convert_results_to_json_lines
 
 client = boto3.client("s3")
 logger = logging.getLogger()
