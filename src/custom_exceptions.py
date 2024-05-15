@@ -28,6 +28,9 @@ class NoSuchBucket(Exception):
 class NoSuchKey(Exception):
     pass
 
+class ParameterNotFound(Exception):
+    pass
+
 class ResourceExistsException(Exception):
     pass
 
@@ -49,6 +52,7 @@ error_map = {
     'MalformedXML': MalformedXML,
     'NoSuchBucket': NoSuchBucket,
     'NoSuchKey': NoSuchKey,
+    'ParameterNotFound': ParameterNotFound,
     'ResourceExistsException': ResourceExistsException,
     'ResourceNotFoundException': ResourceNotFoundException,
     'ValidationException': ValidationException,
