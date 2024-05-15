@@ -8,3 +8,4 @@ requirements.txt
 **/.pycache
 **/__pycache__
 .pytest_cache
+zip/
