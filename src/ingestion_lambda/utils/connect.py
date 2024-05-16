@@ -1,5 +1,6 @@
 import pg8000.native
 import os
+
 # from dotenv import load_dotenv
 try:
     from utils.get_db_creds import get_database_credentials
@@ -15,5 +16,5 @@ def connect_db():
         password=get_database_credentials("database_credentials")["password"],
         database=get_database_credentials("database_credentials")["database"],
         host=get_database_credentials("database_credentials")["hostname"],
-        port=str(get_database_credentials("database_credentials")["port"])
+        port=str(get_database_credentials("database_credentials")["port"]),
     )

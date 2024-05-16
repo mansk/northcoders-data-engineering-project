@@ -12,14 +12,14 @@ resource "aws_cloudwatch_log_metric_filter" "ingestion_metric_filter" {
 
 
 resource "aws_cloudwatch_metric_alarm" "ingestion_metric_" {
-  alarm_name                = "ingestion-error-alarm"
-  comparison_operator       = "GreaterThanOrEqualToThreshold"
-  evaluation_periods        = 1
-  metric_name               = "${aws_cloudwatch_log_metric_filter.ingestion_metric_filter.metric_transformation[0].name}"
-  namespace                 = "${aws_cloudwatch_log_metric_filter.ingestion_metric_filter.metric_transformation[0].namespace}"
-  period                    = 30
-  statistic                 = "Sum"
-  threshold                 = 0.5
-  alarm_actions = [aws_sns_topic.sns_error.arn]
-  alarm_description         = "This metric monitors error messages"
+  alarm_name          = "ingestion-error-alarm"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 1
+  metric_name         = aws_cloudwatch_log_metric_filter.ingestion_metric_filter.metric_transformation[0].name
+  namespace           = aws_cloudwatch_log_metric_filter.ingestion_metric_filter.metric_transformation[0].namespace
+  period              = 30
+  statistic           = "Sum"
+  threshold           = 0.5
+  alarm_actions       = [aws_sns_topic.sns_error.arn]
+  alarm_description   = "This metric monitors error messages"
 }
