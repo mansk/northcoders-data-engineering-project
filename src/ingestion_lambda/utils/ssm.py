@@ -1,6 +1,9 @@
 import boto3
 from botocore.exceptions import ClientError
-from utils.custom_exceptions import *
+try:
+    from utils.custom_exceptions import *
+except ModuleNotFoundError:
+    from src.custom_exceptions import *
 
 
 def get_parameter(param: str):

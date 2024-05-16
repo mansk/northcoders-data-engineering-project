@@ -1,5 +1,5 @@
 import pytest
-from src.ingestion_lambda.utils.custom_exceptions import *
+from src.custom_exceptions import *
 from src.ingestion_lambda.utils.ssm import get_parameter, set_parameter
 import boto3
 from moto import mock_aws

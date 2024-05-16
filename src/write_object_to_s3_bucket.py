@@ -1,7 +1,10 @@
 import boto3
 from botocore.exceptions import ClientError
 # from hashlib import sha256
-from utils.custom_exceptions import *
+try:
+    from utils.custom_exceptions import *
+except ModuleNotFoundError:
+    from src.custom_exceptions import *
 
 
 client = boto3.client('s3')

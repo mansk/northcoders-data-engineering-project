@@ -1,7 +1,10 @@
 import pg8000.native
 import os
 # from dotenv import load_dotenv
-from utils.get_db_creds import get_database_credentials
+try:
+    from utils.get_db_creds import get_database_credentials
+except ModuleNotFoundError:
+    from src.ingestion_lambda.utils.get_db_creds import get_database_credentials
 
 # load_dotenv()
 
