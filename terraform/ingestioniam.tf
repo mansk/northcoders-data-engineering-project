@@ -56,7 +56,7 @@ resource "aws_iam_policy" "ingestion_lambda_logs_policy" {
           "logs:PutLogEvents"
         ]
         Effect   = "Allow"
-        Resource = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${ingestion_lambda}:*"
+        Resource = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.ingestion_lambda.function_name}:*"
       }
     ]
   })
