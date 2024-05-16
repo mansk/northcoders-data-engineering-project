@@ -73,6 +73,12 @@ run-black:
 	find ./src -iname "*.py" -not -path "./src/packages/*" -exec bash -c '$(call execute_in_env, black {})' \;
 	find ./test -iname "*.py" -exec bash -c '$(call execute_in_env, black {})' \;
 
+## Run terraform init, fmt and validate
+run-terraform:
+	cd terraform && terraform init
+	cd terraform && terraform fmt
+	cd terraform && terraform validate
+
 ## Run the unit tests
 unit-test:
 	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest -v)
