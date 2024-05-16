@@ -9,7 +9,7 @@ def test_lambda_handler_logs_successful_table_reads(caplog):
          patch('src.ingestion_lambda.lambda_handler.set_parameter') as mock_set_parameter,
          patch('src.ingestion_lambda.lambda_handler.write_object_to_s3_bucket') as mock_write_to_s3):
         mock_get_table.return_value = []
-        lambda_handler()
+        lambda_handler(None, None)
 
     for table in [
         "counterparty", "currency", "department", "design", "staff",
@@ -25,7 +25,7 @@ def test_lambda_handler_logs_successful_s3_writes(caplog):
          patch('src.ingestion_lambda.lambda_handler.set_parameter') as mock_set_parameter,
          patch('src.ingestion_lambda.lambda_handler.write_object_to_s3_bucket') as mock_write_to_s3):
         mock_get_table.return_value = [{'test': True}]
-        lambda_handler()
+        lambda_handler(None, None)
 
     for table in [
         "counterparty", "currency", "department", "design", "staff",
