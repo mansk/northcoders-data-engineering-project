@@ -6,7 +6,7 @@ from decimal import Decimal
 from types import NoneType
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def conn():
     connection = connect_db()
     yield connection
@@ -151,5 +151,4 @@ def test_get_table_correctly_implements_timestamp_constraint(conn):
 
     results = get_table("sales_order", conn, five_hours_ago)
     for result in results:
-        assert (result["last_updated"]
-                > five_hours_ago)
+        assert result["last_updated"] > five_hours_ago
