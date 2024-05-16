@@ -1,7 +1,7 @@
 import pg8000.native
 import os
 # from dotenv import load_dotenv
-from src.get_db_creds import get_database_credentials
+from utils.get_db_creds import get_database_credentials
 
 # load_dotenv()
 

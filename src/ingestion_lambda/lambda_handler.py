@@ -3,12 +3,12 @@ from botocore.exceptions import ClientError
 import datetime
 import json
 import logging
-from .utils.connect import connect_db
-from .utils.get_table import get_table
-from .utils.convert_results_to_json_lines import convert_results_to_json_lines
-from .utils.custom_exceptions import *
-from .utils.write_object_to_s3_bucket import write_object_to_s3_bucket
-from .utils.ssm import get_parameter, set_parameter
+from utils.connect import connect_db
+from utils.get_table import get_table
+from utils.convert_results_to_json_lines import convert_results_to_json_lines
+from utils.custom_exceptions import *
+from utils.write_object_to_s3_bucket import write_object_to_s3_bucket
+from utils.ssm import get_parameter, set_parameter
 
 client = boto3.client("s3")
 logger = logging.getLogger()
@@ -17,7 +17,7 @@ logger.setLevel(logging.INFO)
 TIMESTAMP_PARAM = 'timestamp_of_last_successful_execution'
 
 
-def lambda_handler():
+def lambda_handler(event, context):
 
     curr_timestamp = datetime.datetime.now(datetime.UTC)
     curr_timestamp_string = curr_timestamp.strftime("%Y-%m-%d_%H-%M-%S")
@@ -29,7 +29,7 @@ def lambda_handler():
     except ParameterNotFound:
         last_timestamp = datetime.datetime.min
 
-    except ClientError:
+    except ClientError as e:
         error_handler(e)
 
         raise ClientError(e.response, e.operation_name)
@@ -59,9 +59,13 @@ def lambda_handler():
 
     for table in results:
         if results[table]:
+            logger.info(f'New/Updated data found in \'{table}\'')
             output[table] = convert_results_to_json_lines(results[table])
+        else:
+            logger.info(f'No new/updated data found in \'{table}\'')
 
     for table in output:
+        logger.info(f'Attempting to write \'{table}\' data into S3')
         write_object_to_s3_bucket(
             'de-watershed-ingestion-bucket',
             f'{table}/{curr_timestamp_string}.jsonl',
@@ -71,3 +75,4 @@ def lambda_handler():
 
 
     set_parameter(TIMESTAMP_PARAM, curr_timestamp.isoformat())
+    logger.info('Parameter has been updated with the recent timestamp')
