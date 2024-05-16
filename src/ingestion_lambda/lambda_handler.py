@@ -3,13 +3,13 @@ from botocore.exceptions import ClientError
 import datetime
 import logging
 
-if __name__ == '__main__':
-    from .utils.connect import connect_db
-    from .utils.get_table import get_table
-    from .utils.convert_results_to_json_lines import convert_results_to_json_lines
-    from .utils.custom_exceptions import *
-    from .utils.write_object_to_s3_bucket import write_object_to_s3_bucket
-    from .utils.ssm import get_parameter, set_parameter
+if __name__ == '__main__' or __name__ == 'lambda_handler':
+    from utils.connect import connect_db
+    from utils.get_table import get_table
+    from utils.convert_results_to_json_lines import convert_results_to_json_lines
+    from utils.custom_exceptions import *
+    from utils.write_object_to_s3_bucket import write_object_to_s3_bucket
+    from utils.ssm import get_parameter, set_parameter
 else:
     from src.ingestion_lambda.utils.connect import connect_db
     from src.ingestion_lambda.utils.get_table import get_table
