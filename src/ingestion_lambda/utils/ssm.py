@@ -1,6 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
-from .custom_exceptions import *
+from utils.custom_exceptions import *
 
 
 def get_parameter(param: str):

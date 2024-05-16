@@ -1,7 +1,7 @@
 import boto3
 from botocore.exceptions import ClientError
 # from hashlib import sha256
-from src.custom_exceptions import *
+from utils.custom_exceptions import *
 
 
 client = boto3.client('s3')
