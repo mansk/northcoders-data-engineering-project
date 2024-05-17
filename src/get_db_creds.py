@@ -8,16 +8,15 @@ def get_database_credentials(secret_id):
     We are using it to retrieve login credentials for the database we are ingesting from and the warehouse we are loading to.
 
     Args:
-    secret_id: The relevant secret_id is passed into the function to retrieve credentials for the specified secret
-    e.g. database_one, database_two.
+        secret_id: The relevant secret_id is passed into the function as a string to retrieve credentials for the specified secret.
 
     Returns:
-    Credentials in json format, accessible by key e.g.
-    Database = get_database_credentials()["database"]
-    Hostname = get_database_credentials()["hostname"]
-    Username = get_database_credentials()["username"]
-    Password = get_database_credentials()["password"]
-    Port = get_database_credentials()["port"]
+        Credentials in json format, accessible by key e.g.
+        Database = get_database_credentials("db_secret_id")["database"]
+        Hostname = get_database_credentials("db_secret_id")["hostname"]
+        Username = get_database_credentials("db_secret_id")["username"]
+        Password = get_database_credentials("db_secret_id")["password"]
+        Port = get_database_credentials("db_secret_id")["port"]
     """
     sm_client = boto3.client("secretsmanager")
     try:
