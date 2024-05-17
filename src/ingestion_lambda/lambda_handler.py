@@ -27,7 +27,34 @@ logger.setLevel(logging.INFO)
 TIMESTAMP_PARAM = "timestamp_of_last_successful_execution"
 
 
-def lambda_handler(event, context):
+def lambda_handler(event: dict, context):
+    """Fetches new data from ingestion source db and writes to ingestion bucket.
+
+    Records current time at start of execution. Fetches time of last successful
+    execution using get_parameter. If no value is returned, uses the earliest
+    date+time representable as a datetime object. Uses this time in calls to
+    get_table, which returns a list of dictionaries of rows that have been
+    created or updated since this reference timestamp.
+
+    Any records returned from this call are saved into the ingestion S3 bucket
+    in JSON Lines format in a new file prefixed with the appropriate table name.
+
+    If this all executes without a problem, set_parameter updates the timestamp
+    of last successful execution with the value set at the beginning of the
+    function.
+
+    Args:
+        event: A dictionary of values passed to the Lambda function.
+        context: An awslambdaric.lambda_context.LambdaContext object.
+
+    Returns:
+        None.
+
+    Raises:
+        A custom exception named after the "Code" in the Boto3 error response
+        if found in the exceptions at src.custom_exceptions, otherwise a
+        botocore.exceptions.ClientError
+    """
 
     curr_timestamp = datetime.datetime.now(datetime.UTC)
     curr_timestamp_string = curr_timestamp.strftime("%Y-%m-%d_%H-%M-%S")
