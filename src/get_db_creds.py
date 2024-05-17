@@ -5,7 +5,7 @@ def get_database_credentials(secret_id):
     """Retrieves database credentials from AWS secrets manager.
 
     This function retrieves database credentials from the AWS secrets manager.
-    We are using it to retrieve login credentials for the database we are ingesting from and the warehouse we are loading to.
+    We are using it to retrieve login credentials for the database we are ingesting from and the warehouse we are loading into.
 
     Args:
         secret_id: The relevant secret_id is passed into the function as a string to retrieve credentials for the specified secret.
