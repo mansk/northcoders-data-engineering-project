@@ -37,6 +37,13 @@ resource "aws_iam_role_policy_attachment" "lambda_s3_policy_attachment" {
   policy_arn = aws_iam_policy.ingestion_lambda_s3_policy.arn
 }
 
+
+
+
+
+
+
+
 resource "aws_iam_policy" "ingestion_lambda_logs_policy" {
   name        = "${var.team_prefix}ingestion-lambda-logs-policy"
   description = "Policy for logging"

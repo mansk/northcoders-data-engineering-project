@@ -9,7 +9,6 @@ resource "aws_lambda_function" "ingestion_lambda" {
   timeout          = 60
 }
 
-
 data "archive_file" "lambda_ingestion_source" {
   type        = "zip"
   output_path = "${path.module}/../zip/ingestion.zip"
@@ -35,3 +34,4 @@ resource "aws_lambda_permission" "allow_eventbridge" {
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.ingestion_scheduler.arn
 }
+
