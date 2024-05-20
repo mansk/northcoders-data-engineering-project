@@ -76,6 +76,5 @@ Must:
 1. Clone this repository to your local machine:
    https://github.com/yourusername/de-project-watershed.git
 2. Install Python, install dependencies and run unittests via Make commands (Make all)
-3. Configure AWS's iam credentials using the AWS CLI: aws configure
-4. Deploy aws infrastructure by going into terrform directory and running the commands init, plan and apply commands
-5. Deploy lambda functions by zipping the ...folder using aws cli?
+3. Configure AWS's iam credentials using the AWS CLI: aws configure.
+4. Deploy infrastructure by going into terraform directory and running the commands init, plan and apply commands.
