@@ -9,9 +9,9 @@ def filter_and_convert_dataframe_to_parquet(
     This function is used to select a subset of columns from a dataframe
     and return the resulting data in parquet format.
 
-    This function is intentionally impure as we do not wish to replicate
-    the data in memory and we will not later require the columns we are
-    dropping here.
+    This function intentionally mutates the input dataframe as we do not wish
+    to replicate the data in memory and we will not later require the columns
+    we are dropping here.
 
     Args:
         dataframe: A pandas dataframe.
@@ -21,7 +21,8 @@ def filter_and_convert_dataframe_to_parquet(
         bytes of binary parquet format
 
     Raises:
-
+        TypeError if arguments do not conform to expected types.
+        ValueError if none of the columns in 'columns' are found in the dataframe.
     """
     if not isinstance(dataframe, pd.DataFrame):
         raise TypeError("First argument must be a pandas DataFrame")
