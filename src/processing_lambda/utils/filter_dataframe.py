@@ -21,7 +21,8 @@ def filter_and_convert_dataframe_to_parquet(
         bytes of binary parquet format
 
     Raises:
-
+        TypeError if arguments do not conform to expected types.
+        ValueError if none of the columns in 'columns' are found in the dataframe.
     """
     if not isinstance(dataframe, pd.DataFrame):
         raise TypeError("First argument must be a pandas DataFrame")
