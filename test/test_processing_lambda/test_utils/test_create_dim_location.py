@@ -47,9 +47,9 @@ def test_create_dim_location_returns_expected_columns(dummy_location_df):
 
     assert list(result.columns) == expected
     assert 'created_at' not in list(result.columns)
-    assert 'created_at' not in list(result.columns)
+    assert 'last_updated' not in list(result.columns)
 
-    
+
 def test_create_dim_location_raises_an_error():
 
     greeting = 'hello'
