@@ -37,15 +37,11 @@ class NoSuchBucket(Exception):
 class NoSuchKey(Exception):
     pass
 
-<<<<<<< HEAD
 class NoSuchTable(Exception):
     pass
-=======
->>>>>>> 7458780dde7dd8068d49cb6f71a8083de88ae1ca
 
 class ParameterNotFound(Exception):
     pass
-
 
 class ResourceExistsException(Exception):
     pass
