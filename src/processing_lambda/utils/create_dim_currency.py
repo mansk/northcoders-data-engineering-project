@@ -29,6 +29,6 @@ def create_dim_currency(df: pd.DataFrame):
         df["currency_name"] = df.apply(
             lambda row: currency_name[row.currency_code], axis=1
         )
-        return df
+        return df[["currency_id", "currency_code", "currency_name"]]
     except KeyError as e:
         raise KeyError(f"Currency code {e} not found!!")
