@@ -5,6 +5,9 @@ import pytest
 from unittest.mock import patch
 from src.write_object_to_s3_bucket import write_object_to_s3_bucket
 from src.custom_exceptions import NoSuchBucket
+import io
+import pandas as pd
+from src.processing_lambda.utils.filter_dataframe import filter_and_convert_dataframe_to_parquet
 
 
 @pytest.fixture(scope="function")
@@ -91,3 +94,21 @@ def test_write_object_to_s3_bucket_succeeds_with_prefixed_key(mock_client, mock_
     response = mock_client.get_object(Bucket=bucket_name, Key=file_key)
 
     assert response["Body"].read().decode("utf_8") == "test\n"
+
+
+def test_write_object_to_s3_bucket_correctly_writes_binary_data(mock_client, mock_bucket):
+    bucket_name = "test-bucket"
+    file_key = "test-file"
+    df = pd.DataFrame({'one': [-1, 0, 2.5],
+                   'two': ['foo', 'bar', 'baz'],
+                   'three': [True, False, True]},
+                   index=list('abc'))
+    parquet_data = filter_and_convert_dataframe_to_parquet(df, ['one', 'two', 'three'])
+
+    write_object_to_s3_bucket(bucket_name, file_key, parquet_data, binary=True)
+
+    response = mock_client.get_object(Bucket=bucket_name, Key=file_key)
+    pq_file = io.BytesIO(response["Body"].read())
+    retrieved_df = pd.read_parquet(pq_file)
+
+    assert retrieved_df.equals(df)

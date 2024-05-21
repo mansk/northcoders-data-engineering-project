@@ -11,7 +11,7 @@ except ModuleNotFoundError:
 client = boto3.client("s3")
 
 
-def write_object_to_s3_bucket(bucket_name: str, file_key: str, data: str) -> str:
+def write_object_to_s3_bucket(bucket_name: str, file_key: str, data: str, binary: bool=False) -> str:
     """Writes a new object to an S3 bucket.
 
     This function uses the boto3 S3 client put_object method to attempt to
@@ -33,8 +33,9 @@ def write_object_to_s3_bucket(bucket_name: str, file_key: str, data: str) -> str
         botocore.exceptions.ClientError
     """
     try:
+        body = data if binary else data.encode("utf_8")
         response = client.put_object(
-            Body=data.encode("utf_8"),
+            Body=body,
             Bucket=bucket_name,
             # ChecksumSHA256 = sha256(bytes(data, encoding='utf_8')),
             Key=file_key,
