@@ -30,7 +30,7 @@ def create_dim_staff(df: pd.DataFrame):
 
     new_df = df.merge(department_df, how="left", on="department_id")
 
-    if any(pd.isna(new_df["department_name"])) or any(pd.isna(new_df["location"])):
+    if any(pd.isna(new_df["department_name"])):
         raise ValueError("department_name or location not found")
 
     return new_df[

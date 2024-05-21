@@ -74,8 +74,6 @@ def test_create_dim_staff_returns_correct_name_and_location_for_each_department(
 
         result = create_dim_staff(dummy_staff_df)
 
-    print(result["department_name"])
-
     assert result["department_name"].equals(dummy_department_df["department_name"])
     assert result["location"].equals(dummy_department_df["location"])
 
@@ -86,11 +84,13 @@ def test_create_dim_staff_raises_ValueError_when_missing_department_name_or_loca
     with patch(
         "src.processing_lambda.utils.create_dim_staff.get_df_from_s3_bucket"
     ) as patched_func:
-        dummy_department_df.drop(0, axis=0)
-        patched_func.return_value = dummy_department_df
+        patched_func.return_value = dummy_department_df[
+            dummy_department_df["department_id"] == 1
+        ]
 
-    with pytest.raises(ValueError) as e:
-        create_dim_staff(dummy_staff_df)
+        with pytest.raises(ValueError) as e:
+            create_dim_staff(dummy_staff_df)
+
     assert str(e.value) == "department_name or location not found"
 
 
