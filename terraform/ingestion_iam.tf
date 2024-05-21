@@ -75,6 +75,15 @@ resource "aws_iam_role_policy_attachment" "lambda_logs_policy_attachment" {
 }
 
 
+
+
+
+
+
+
+
+
+
 resource "aws_iam_policy" "ingestion_lambda_ssm_policy" {
   name        = "${var.team_prefix}ingestion-lambda-ssm-policy"
   description = "Policy for lambda to read/write to ssm"
@@ -97,6 +106,12 @@ resource "aws_iam_role_policy_attachment" "lambda_ssm_policy_attachment" {
   role       = aws_iam_role.ingestion_lambda_role.name
   policy_arn = aws_iam_policy.ingestion_lambda_ssm_policy.arn
 }
+
+
+
+
+
+
 
 resource "aws_iam_policy" "ingestion_lambda_secrets_policy" {
   name        = "${var.team_prefix}ingestion-lambda-secrets-policy"

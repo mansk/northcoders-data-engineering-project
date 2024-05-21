@@ -15,6 +15,7 @@ data "archive_file" "lambda_ingestion_source" {
   source_dir  = "${path.module}/../src/ingestion_lambda/"
 }
 
+
 data "archive_file" "lambda_layer_zip" {
   type        = "zip"
   output_path = "${path.module}/../zip/layer.zip"
@@ -27,6 +28,27 @@ resource "aws_lambda_layer_version" "lambda_layer" {
   source_code_hash    = data.archive_file.lambda_layer_zip.output_base64sha256
   compatible_runtimes = ["python3.11"]
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 resource "aws_lambda_permission" "allow_eventbridge" {
   action        = "lambda:InvokeFunction"
