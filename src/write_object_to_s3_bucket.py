@@ -1,4 +1,4 @@
-import boto3
+jp-import boto3
 from botocore.exceptions import ClientError
 # from hashlib import sha256
 try:
