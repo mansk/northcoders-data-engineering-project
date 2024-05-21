@@ -11,7 +11,9 @@ except ModuleNotFoundError:
 client = boto3.client("s3")
 
 
-def write_object_to_s3_bucket(bucket_name: str, file_key: str, data: (str|bytes), binary: bool=False) -> str:
+def write_object_to_s3_bucket(
+    bucket_name: str, file_key: str, data: str | bytes, binary: bool = False
+) -> str:
     """Writes a new object to an S3 bucket.
 
     This function uses the boto3 S3 client put_object method to attempt to
