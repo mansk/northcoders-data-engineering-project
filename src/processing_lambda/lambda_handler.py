@@ -23,7 +23,11 @@ def lambda_handler(event, context):
 
     logger.info(f"Processing file {key} from bucket {bucket_name}")
 
-    ingested_data_frame = read_object_into_dataframe(bucket_name, key)
+    try:
+        ingested_data_frame = read_object_into_dataframe(bucket_name, key)
+    except Exception as e:
+        logger.error(f"Error reading data from ingestion bucket into dataframe: {e}")
+        return 
 
     if table_name == 'address':
         df = transformation_function(ingested_data_frame)
@@ -54,6 +58,11 @@ def lambda_handler(event, context):
 
     processed_bucket = "de-watershed-processed-bucket"
 
-    write_object_to_s3_bucket(Bucket=processed_bucket, Key=f"{table_name}/{curr_timestamp_string}.parquet", Data=parquet_data, Binary=True)
+    try:
+        write_object_to_s3_bucket(processed_bucket, f"{table_name}/{curr_timestamp_string}.parquet", parquet_data, binary=True)
+        
+        logger.info(f"Successfully processed and wrote file to s3://{processed_bucket}/{table_name}")
+        
+    except Exception as e:
+        logger.error(f"Error writing parquet data to processed s3 bucket: {e}")
 
-    logger.info(f"Successfully processed and wrote file to s3://{processed_bucket}/{table_name}")
