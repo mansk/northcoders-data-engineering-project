@@ -70,7 +70,7 @@ security-test:
 
 ## Run the black code check
 run-black:
-	find ./src -iname "*.py" -not -path "./src/packages/*" -exec bash -c '$(call execute_in_env, black {})' \;
+	find ./src -iname "*.py" -not -path "./src/packages/*" -not -path "./src/pandas_layer/*" -exec bash -c '$(call execute_in_env, black {})' \;
 	find ./test -iname "*.py" -exec bash -c '$(call execute_in_env, black {})' \;
 
 ## Run terraform init, fmt and validate
