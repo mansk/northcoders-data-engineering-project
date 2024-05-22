@@ -1,27 +1,3 @@
-# original db
-# Table sales_order {
-#   created_at timestamp [not null, default: `current_timestamp`]
-#   last_updated timestamp [not null, default: `current_timestamp`]
-# }
-
-# Table "fact_sales_order" {
-#   "sales_record_id" SERIAL [pk, increment]
-#   "created_date" date [not null]
-#   "created_time" time [not null]
-#   "last_updated_date" date [not null]
-#   "last_updated_time" time [not null]
-# }
-
-# DONE retained: sales_order_id, counterparty_id, units_sold, currency_id,
-#           design_id, agreed_delivery_location_id, unit_price
-# DONE renamed: staff_id -> sales_staff_id
-# DONE type change: agreed_delivery_date, agreed_payment_date (varchar -> date)
-# DONE timestamps broken up into date and time
-# DONE (created_at -> created_date, created_time
-# DONE last_updated -> last_updated_date, last_updated_time)
-# all dates inserted into dim_date
-# DONE keep track of sales_record_id
-
 import pandas as pd
 from src.custom_exceptions import ParameterNotFound
 from src.processing_lambda.utils.ssm import get_parameter, set_parameter
