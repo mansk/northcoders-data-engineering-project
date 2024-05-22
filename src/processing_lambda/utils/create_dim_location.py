@@ -1,5 +1,6 @@
 import pandas as pd
-#from src.processing_lambda.utils.jsonl_to_df import #get_df_from_s3_bucket
+
+# from src.processing_lambda.utils.jsonl_to_df import #get_df_from_s3_bucket
 
 
 def create_dim_location(df: pd.DataFrame):
@@ -19,11 +20,9 @@ def create_dim_location(df: pd.DataFrame):
 
     if not isinstance(df, pd.DataFrame):
         raise TypeError("Argument must be a pandas dataframe")
-    
-  
-    location = df.drop(columns = ['created_at', 'last_updated'])
 
-    location = location.rename(columns = {'address_id' : 'location_id'})
+    location = df.drop(columns=["created_at", "last_updated"])
+
+    location = location.rename(columns={"address_id": "location_id"})
 
     return location
-
