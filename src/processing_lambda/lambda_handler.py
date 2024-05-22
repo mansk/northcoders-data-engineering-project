@@ -65,4 +65,3 @@ def lambda_handler(event, context):
         
     except Exception as e:
         logger.error(f"Error writing parquet data to processed s3 bucket: {e}")
-
