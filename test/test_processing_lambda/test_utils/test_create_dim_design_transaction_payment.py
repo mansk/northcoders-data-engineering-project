@@ -8,11 +8,13 @@ import pytest
 def dummy_design_df():
     return pd.DataFrame(
         {
+            'design_id' : 1,
+            'created_at': ['2024-01-01'],
+            'last_updated' : ['2024-01-01'],
             'design_name' : [123],
             'file_location' : ['rock street'],
-            'file_name' : ['dev'],
-            'created_at': ['2024-01-01'],
-            'last_updated' : ['2024-01-01']
+            'file_name' : ['dev']
+            
         })
     
 
@@ -25,9 +27,10 @@ def test_drop_update_created_at_two_columns_returns_pandas_dataframe(dummy_desig
 def test_drop_update_created_at_two_columns_returns_expected_columns(dummy_design_df):
 
     expected = [
+        'design_id',
         'design_name',
         'file_location',
-        'file_name',
+        'file_name'
     ]
 
     result = drop_update_created_at_two_columns(dummy_design_df)
