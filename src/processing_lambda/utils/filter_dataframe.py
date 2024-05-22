@@ -40,3 +40,4 @@ def filter_and_convert_dataframe_to_parquet(
     parquet_data = dataframe.to_parquet()
 
     return parquet_data
+

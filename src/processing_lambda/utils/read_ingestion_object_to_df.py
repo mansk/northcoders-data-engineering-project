@@ -32,14 +32,3 @@ def read_object_into_dataframe(bucket_name, key):
 
 
 
-
-
-
-    #     json_lines_data = response['Body'].read().decode('utf-8').strip().split('\n')
-    #     # Parse each JSON line into a Python dictionary
-    #     json_objects = [json.loads(line) for line in json_lines_data]
-    #     # Convert the list of dictionaries to a Pandas DataFrame
-    #     dataframe = pd.DataFrame(json_objects)
-    #     return dataframe
-    # except Exception as e:
-    #     raise ValueError(f"Error reading or processing the object from S3: {e}")

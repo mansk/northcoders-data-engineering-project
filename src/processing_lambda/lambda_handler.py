@@ -5,7 +5,7 @@ from src.processing_lambda.utils.read_ingestion_object_to_df import read_object_
 import datetime
 
 def transformation_function(data):
-    pass
+    return data
 
 def lambda_handler(event, context):
     """Process JSON Lines files from the ingestion bucket and write transformed data to the processed bucket."""
@@ -57,5 +57,3 @@ def lambda_handler(event, context):
     write_object_to_s3_bucket(Bucket=processed_bucket, Key=f"{table_name}/{curr_timestamp_string}.parquet", Data=parquet_data, Binary=True)
 
     logger.info(f"Successfully processed and wrote file to s3://{processed_bucket}/{table_name}")
-
-# IGNORE tests for now - need to restructure as the not sure the lambda handler is finished.
