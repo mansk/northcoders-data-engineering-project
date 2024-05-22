@@ -1,6 +1,8 @@
 import boto3
 from botocore.exceptions import ClientError
 import json
+
+
 def get_database_credentials(secret_id):
     """Retrieves database credentials from AWS secrets manager.
 
