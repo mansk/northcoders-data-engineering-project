@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def create_dim_currency(df: pd.DataFrame):
     """Adds specified columns from dataframe and returns dataframe.
 
@@ -20,12 +21,14 @@ def create_dim_currency(df: pd.DataFrame):
     if not isinstance(df, pd.DataFrame):
         raise TypeError("Input needs to be of type dataframe!")
     currency_name = {
-        'GBP' : 'Pound Sterling',
-        'USD' : 'United States Dollar',
-        'EUR' : 'Euro'
+        "GBP": "Pound Sterling",
+        "USD": "United States Dollar",
+        "EUR": "Euro",
     }
     try:
-        df['currency_name'] = df.apply(lambda row: currency_name[row.currency_code], axis=1)
-        return df
+        df["currency_name"] = df.apply(
+            lambda row: currency_name[row.currency_code], axis=1
+        )
+        return df[["currency_id", "currency_code", "currency_name"]]
     except KeyError as e:
         raise KeyError(f"Currency code {e} not found!!")
