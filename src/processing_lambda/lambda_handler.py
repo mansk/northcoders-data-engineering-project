@@ -9,47 +9,61 @@ if __name__ == "lambda_handler":
     from utils.read_ingestion_object_to_df import (
         read_object_into_dataframe,
     )
-    from utils.create_dim_design_transaction_payment import drop_update_created_at_two_columns
+    from utils.create_dim_design_transaction_payment import (
+        drop_update_created_at_two_columns,
+    )
     from utils.create_dim_staff import create_dim_staff
     from utils.create_dim_counterparty import create_dim_counterparty
     from utils.create_dim_currency import create_dim_currency
     from utils.create_dim_date import create_dim_date
     from utils.create_dim_location import create_dim_location
-    from utils.create_fact_sales_order import create_fact_sales_order, LAST_SALES_RECORD_ID_PARAM
+    from utils.create_fact_sales_order import (
+        create_fact_sales_order,
+        LAST_SALES_RECORD_ID_PARAM,
+    )
     from utils.ssm import set_parameter
-else: 
-    from src.processing_lambda.utils.write_object_to_s3_bucket import write_object_to_s3_bucket
+else:
+    from src.processing_lambda.utils.write_object_to_s3_bucket import (
+        write_object_to_s3_bucket,
+    )
     from src.processing_lambda.utils.filter_dataframe import (
         filter_and_convert_dataframe_to_parquet,
     )
     from src.processing_lambda.utils.read_ingestion_object_to_df import (
         read_object_into_dataframe,
     )
-    from src.processing_lambda.utils.create_dim_design_transaction_payment import drop_update_created_at_two_columns
+    from src.processing_lambda.utils.create_dim_design_transaction_payment import (
+        drop_update_created_at_two_columns,
+    )
     from src.processing_lambda.utils.create_dim_staff import create_dim_staff
-    from src.processing_lambda.utils.create_dim_counterparty import create_dim_counterparty
+    from src.processing_lambda.utils.create_dim_counterparty import (
+        create_dim_counterparty,
+    )
     from src.processing_lambda.utils.create_dim_currency import create_dim_currency
     from src.processing_lambda.utils.create_dim_date import create_dim_date
     from src.processing_lambda.utils.create_dim_location import create_dim_location
-    from src.processing_lambda.utils.create_fact_sales_order import create_fact_sales_order, LAST_SALES_RECORD_ID_PARAM
+    from src.processing_lambda.utils.create_fact_sales_order import (
+        create_fact_sales_order,
+        LAST_SALES_RECORD_ID_PARAM,
+    )
     from src.processing_lambda.utils.ssm import set_parameter
 
 
-
 def lambda_handler(event, context):
-    """Process JSON Lines files from the ingestion bucket and write transformed data to the processed bucket.
-    """
+    """Process JSON Lines files from the ingestion bucket and write transformed data to the processed bucket."""
 
-    table_prefixes = {"address": "dim_location",
-                      "counterparty": "dim_counterparty",
-                      "staff": "dim_staff",
-                      "currency": "dim_currency",
-                      "design": "dim_design",
-                      "payment_type": "dim_payment_type",
-                      "payment": "fact_payment",
-                      "purchase_order": "fact_purchase_order",
-                      "sales_order" : "fact_sales_order",
-                      "transaction" : "dim_transaction"}
+    table_prefixes = {
+        "address": "dim_location",
+        "counterparty": "dim_counterparty",
+        "staff": "dim_staff",
+        "currency": "dim_currency",
+        "design": "dim_design",
+        "payment_type": "dim_payment_type",
+        "payment": "fact_payment",
+        "purchase_order": "fact_purchase_order",
+        "sales_order": "fact_sales_order",
+        "transaction": "dim_transaction",
+    }
 
     curr_timestamp = datetime.datetime.now(datetime.UTC)
     curr_timestamp_string = curr_timestamp.strftime("%Y-%m-%d_%H-%M-%S")
@@ -69,7 +83,7 @@ def lambda_handler(event, context):
     except Exception as e:
         logger.error(f"Error reading data from ingestion bucket into dataframe: {e}")
         return
-    
+
     date_df = None
 
     if table_name == "address":
@@ -107,8 +121,9 @@ def lambda_handler(event, context):
 
     if date_df is not None:
         date_df_columns = date_df.columns.tolist()
-        date_parquet_data = filter_and_convert_dataframe_to_parquet(date_df, date_df_columns)
-
+        date_parquet_data = filter_and_convert_dataframe_to_parquet(
+            date_df, date_df_columns
+        )
 
     processed_bucket = "de-watershed-processed-bucket"
 
@@ -138,7 +153,6 @@ def lambda_handler(event, context):
             logger.info(
                 f"Successfully processed and wrote file to s3://{processed_bucket}/dim_date"
             )
-
 
     except Exception as e:
         logger.error(f"Error writing parquet data to processed s3 bucket: {e}")

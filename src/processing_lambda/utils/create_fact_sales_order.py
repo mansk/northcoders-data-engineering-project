@@ -1,4 +1,5 @@
 import pandas as pd
+
 try:
     from utils.custom_exceptions import ParameterNotFound
     from utils.ssm import get_parameter
