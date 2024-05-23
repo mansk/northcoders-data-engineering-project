@@ -102,6 +102,9 @@ def lambda_handler(event: dict, context):
         except Exception as e:
             logger.error(e)
 
+    if conn:
+        conn.close()
+
     for table in results:
         if results[table]:
             logger.info(f"New/Updated data found in '{table}'")
