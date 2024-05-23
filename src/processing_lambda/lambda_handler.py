@@ -3,8 +3,8 @@ import datetime
 
 if __name__ == "lambda_handler":
     from utils.write_object_to_s3_bucket import write_object_to_s3_bucket
-    from utils.filter_dataframe import (
-        filter_and_convert_dataframe_to_parquet,
+    from utils.convert_dataframe import (
+        convert_dataframe_to_parquet,
     )
     from utils.read_ingestion_object_to_df import (
         read_object_into_dataframe,
@@ -26,8 +26,8 @@ else:
     from src.processing_lambda.utils.write_object_to_s3_bucket import (
         write_object_to_s3_bucket,
     )
-    from src.processing_lambda.utils.filter_dataframe import (
-        filter_and_convert_dataframe_to_parquet,
+    from src.processing_lambda.utils.convert_dataframe import (
+        convert_dataframe_to_parquet,
     )
     from src.processing_lambda.utils.read_ingestion_object_to_df import (
         read_object_into_dataframe,
@@ -115,19 +115,27 @@ def lambda_handler(event, context):
         logging.error(f"New table: {table_name} found")
         return None
 
-    df_columns = df.columns.tolist()
-
-    parquet_data = filter_and_convert_dataframe_to_parquet(df, df_columns)
+    parquet_data = convert_dataframe_to_parquet(df)
 
     if date_df is not None:
-        date_df_columns = date_df.columns.tolist()
-        date_parquet_data = filter_and_convert_dataframe_to_parquet(
-            date_df, date_df_columns
-        )
+        date_parquet_data = convert_dataframe_to_parquet(date_df)
 
     processed_bucket = "de-watershed-processed-bucket"
 
     try:
+
+        if date_df is not None:
+            write_object_to_s3_bucket(
+                processed_bucket,
+                f"dim_date/{curr_timestamp_string}.parquet",
+                date_parquet_data,
+                binary=True,
+            )
+
+            logger.info(
+                f"Successfully processed and wrote file to s3://{processed_bucket}/dim_date"
+            )
+
         write_object_to_s3_bucket(
             processed_bucket,
             f"{table_prefixes[table_name]}/{curr_timestamp_string}.parquet",
@@ -141,18 +149,6 @@ def lambda_handler(event, context):
 
         if table_name == "sales_order":
             set_parameter(LAST_SALES_RECORD_ID_PARAM, str(df["sales_record_id"].max()))
-
-        if date_df is not None:
-            write_object_to_s3_bucket(
-                processed_bucket,
-                f"dim_date/{curr_timestamp_string}.parquet",
-                date_parquet_data,
-                binary=True,
-            )
-
-            logger.info(
-                f"Successfully processed and wrote file to s3://{processed_bucket}/dim_date"
-            )
 
     except Exception as e:
         logger.error(f"Error writing parquet data to processed s3 bucket: {e}")
