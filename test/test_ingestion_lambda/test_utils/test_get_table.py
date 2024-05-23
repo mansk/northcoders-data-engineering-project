@@ -1,6 +1,6 @@
 import pytest
 import datetime
-from src.ingestion_lambda.utils.connect import connect_db
+from connect import connect_db
 from src.ingestion_lambda.utils.get_table import get_table
 from decimal import Decimal
 from types import NoneType

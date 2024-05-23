@@ -14,11 +14,15 @@ def get_database_credentials(secret_id):
 
     Returns:
         Credentials in json format, accessible by key e.g.
-        Database = get_database_credentials("db_secret_id")["database"]
-        Hostname = get_database_credentials("db_secret_id")["hostname"]
-        Username = get_database_credentials("db_secret_id")["username"]
-        Password = get_database_credentials("db_secret_id")["password"]
-        Port = get_database_credentials("db_secret_id")["port"]
+        database = get_database_credentials("db_secret_id")["database"]
+        hostname = get_database_credentials("db_secret_id")["hostname"]
+        username = get_database_credentials("db_secret_id")["username"]
+        password = get_database_credentials("db_secret_id")["password"]
+        port = get_database_credentials("db_secret_id")["port"]
+
+        Additional retrieval of the credential "schema" if the function 
+        is used to access RDS warehouse credentials can be accessed using:
+        schema = get_database_credentials("db_secret_id")["schema"]
     """
     sm_client = boto3.client("secretsmanager")
     try:
