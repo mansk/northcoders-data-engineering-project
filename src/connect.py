@@ -3,7 +3,7 @@ import os
 
 # from dotenv import load_dotenv
 try:
-    from get_db_creds import get_database_credentials
+    from utils.get_db_creds import get_database_credentials
 except ModuleNotFoundError:
     from src.ingestion_lambda.utils.get_db_creds import get_database_credentials
 
@@ -11,9 +11,11 @@ except ModuleNotFoundError:
 
 
 def connect_db(db_id = "database_credentials") -> pg8000.native.Connection:
-    """Connects to a PostgreSQL database or data warehouse using pg8000.
+    """Connects to a PostgreSQL database using pg8000.
 
-    This function uses the get_database_credentials function to retrieve the necessary credentials for the totesys database or the data warehouse, of which are stored in AWS secrets manager.
+    This function uses the get_database_credentials function to retrieve the
+    necessary credentials for the totesys database or the data warehouse, which
+    are stored in AWS secrets manager.
 
     Args:
         secret_id: The relevant db_id for retrieving credentials
