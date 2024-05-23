@@ -25,11 +25,18 @@ resource "aws_iam_policy" "processed_lambda_read_ingestion_s3_policy" {
     Statement = [
       {
         Action = [
-          "s3:GetObject",
+          "s3:GetObject"
         ]
         Effect   = "Allow"
         Resource = "${aws_s3_bucket.ingestion_bucket.arn}/*"
       },
+      {
+        Action = [
+          "s3:ListBucket"
+        ]
+        Effect   = "Allow"
+        Resource = "${aws_s3_bucket.ingestion_bucket.arn}"
+      }
     ]
   })
 }
@@ -39,6 +46,7 @@ resource "aws_iam_role_policy_attachment" "processed_lambda_read_ingestion_s3_po
   role       = aws_iam_role.processed_lambda_role.name
   policy_arn = aws_iam_policy.processed_lambda_read_ingestion_s3_policy.arn
 }
+
 
 
 

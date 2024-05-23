@@ -31,12 +31,12 @@ CONFIG = _cleanup(
     {
         "Compilers": {
             "c": {
-                "name": "clang",
-                "linker": r"ld64",
-                "version": "14.0.0",
-                "commands": r"clang",
+                "name": "gcc",
+                "linker": r"ld.bfd",
+                "version": "10.2.1",
+                "commands": r"cc",
                 "args": r"-fno-strict-aliasing",
-                "linker args": r"-fno-strict-aliasing",
+                "linker args": r"-Wl,--strip-debug, -fno-strict-aliasing",
             },
             "cython": {
                 "name": "cython",
@@ -47,12 +47,12 @@ CONFIG = _cleanup(
                 "linker args": r"",
             },
             "c++": {
-                "name": "clang",
-                "linker": r"ld64",
-                "version": "14.0.0",
-                "commands": r"clang++",
+                "name": "gcc",
+                "linker": r"ld.bfd",
+                "version": "10.2.1",
+                "commands": r"c++",
                 "args": r"",
-                "linker args": r"",
+                "linker args": r"-Wl,--strip-debug",
             },
         },
         "Machine Information": {
@@ -60,13 +60,13 @@ CONFIG = _cleanup(
                 "cpu": "x86_64",
                 "family": "x86_64",
                 "endian": "little",
-                "system": "darwin",
+                "system": "linux",
             },
             "build": {
                 "cpu": "x86_64",
                 "family": "x86_64",
                 "endian": "little",
-                "system": "darwin",
+                "system": "linux",
             },
             "cross-compiled": bool("False".lower().replace("false", "")),
         },
@@ -78,11 +78,11 @@ CONFIG = _cleanup(
                 "detection method": "pkgconfig",
                 "include directory": r"/usr/local/include",
                 "lib directory": r"/usr/local/lib",
-                "openblas configuration": r"USE_64BITINT=1 DYNAMIC_ARCH=1 DYNAMIC_OLDER= NO_CBLAS= NO_LAPACK= NO_LAPACKE= NO_AFFINITY=1 USE_OPENMP= SANDYBRIDGE MAX_THREADS=3",
+                "openblas configuration": r"USE_64BITINT=1 DYNAMIC_ARCH=1 DYNAMIC_OLDER= NO_CBLAS= NO_LAPACK= NO_LAPACKE= NO_AFFINITY=1 USE_OPENMP= HASWELL MAX_THREADS=2",
                 "pc file directory": r"/usr/local/lib/pkgconfig",
             },
             "lapack": {
-                "name": "dep4510615888",
+                "name": "dep140213194937296",
                 "found": bool("True".lower().replace("false", "")),
                 "version": "1.26.4",
                 "detection method": "internal",
@@ -93,7 +93,7 @@ CONFIG = _cleanup(
             },
         },
         "Python Information": {
-            "path": r"/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/cibw-run-rqf21k59/cp311-macosx_x86_64/build/venv/bin/python",
+            "path": r"/opt/python/cp311-cp311/bin/python",
             "version": "3.11",
         },
         "SIMD Extensions": {

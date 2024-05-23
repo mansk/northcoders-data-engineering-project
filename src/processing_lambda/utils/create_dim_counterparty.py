@@ -1,5 +1,9 @@
 import pandas as pd
-from src.processing_lambda.utils.jsonl_to_df import get_df_from_s3_bucket
+
+try:
+    from utils.jsonl_to_df import get_df_from_s3_bucket
+except ModuleNotFoundError:
+    from src.processing_lambda.utils.jsonl_to_df import get_df_from_s3_bucket
 
 
 def create_dim_counterparty(df: pd.DataFrame):
@@ -27,9 +31,6 @@ def create_dim_counterparty(df: pd.DataFrame):
         raise TypeError("Argument must be a pandas dataframe")
 
     address_df = get_df_from_s3_bucket("address")
-
-    print(address_df.columns)
-    print(df.columns)
 
     new_df = df.merge(
         address_df, how="left", left_on="legal_address_id", right_on="address_id"

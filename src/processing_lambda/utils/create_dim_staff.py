@@ -1,5 +1,9 @@
 import pandas as pd
-from src.processing_lambda.utils.jsonl_to_df import get_df_from_s3_bucket
+
+try:
+    from utils.jsonl_to_df import get_df_from_s3_bucket
+except ModuleNotFoundError:
+    from src.processing_lambda.utils.jsonl_to_df import get_df_from_s3_bucket
 
 
 def create_dim_staff(df: pd.DataFrame):

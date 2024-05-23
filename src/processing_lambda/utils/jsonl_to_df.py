@@ -2,7 +2,11 @@ import boto3
 import pandas as pd
 import io
 from botocore.exceptions import ClientError
-from src.custom_exceptions import *
+
+try:
+    from utils.custom_exceptions import *
+except ModuleNotFoundError:
+    from src.custom_exceptions import *
 
 tables = [
     "counterparty",

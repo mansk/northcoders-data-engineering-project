@@ -45,9 +45,9 @@ def s3_processed_bucket(s3_client):
 
 @pytest.fixture
 def add_bucket_object(s3_client, s3_bucket):
-    json_data = """{"col1": 1, "col2": "value1", "col3": true}
-                    {"col1": 2, "col2": "value2", "col3": false}
-                    {"col1": 3, "col2": "value3", "col3": true}"""
+    json_data = """{"col1": 1, "col2": "value1", "col3": true, "created_at": "time", "last_updated": "time"}
+                    {"col1": 2, "col2": "value2", "col3": false, "created_at": "time", "last_updated": "time"}
+                    {"col1": 3, "col2": "value3", "col3": true, "created_at": "time", "last_updated": "time"}"""
 
     key = "address/"
     s3_client.put_object(Bucket=s3_bucket, Key=key, Body=json_data.encode("utf-8"))
