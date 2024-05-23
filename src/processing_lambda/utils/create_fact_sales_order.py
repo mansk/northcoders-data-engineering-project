@@ -1,9 +1,9 @@
 import pandas as pd
-if __name__ == "lambda_handler":
+try:
     from utils.custom_exceptions import ParameterNotFound
     from utils.ssm import get_parameter
     from utils.create_dim_date import create_dim_date
-else:
+except ModuleNotFoundError:
     from src.custom_exceptions import ParameterNotFound
     from src.processing_lambda.utils.ssm import get_parameter
     from src.processing_lambda.utils.create_dim_date import create_dim_date
@@ -39,11 +39,11 @@ def create_fact_sales_order(df: pd.DataFrame):
     for agreed_date in ("agreed_delivery_date", "agreed_payment_date"):
         df[agreed_date] = pd.to_datetime(df[agreed_date]).dt.date
 
-    created_datetime = pd.to_datetime(df["created_at"])
+    created_datetime = pd.to_datetime(df["created_at"], format="mixed")
     df["created_date"] = created_datetime.dt.date
     df["created_time"] = created_datetime.dt.time
 
-    updated_datetime = pd.to_datetime(df["last_updated"])
+    updated_datetime = pd.to_datetime(df["last_updated"], format="mixed")
     df["last_updated_date"] = updated_datetime.dt.date
     df["last_updated_time"] = updated_datetime.dt.time
 

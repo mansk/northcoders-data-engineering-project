@@ -3,9 +3,9 @@ import pandas as pd
 import io
 from botocore.exceptions import ClientError
 
-if __name__ == "lambda_handler":
+try:
     from utils.custom_exceptions import *
-else:
+except ModuleNotFoundError:
     from src.custom_exceptions import *
 
 tables = [

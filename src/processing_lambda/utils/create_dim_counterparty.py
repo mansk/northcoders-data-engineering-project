@@ -1,8 +1,8 @@
 import pandas as pd
 
-if __name__ == "lambda_handler":
+try:
     from utils.jsonl_to_df import get_df_from_s3_bucket
-else:
+except ModuleNotFoundError:
     from src.processing_lambda.utils.jsonl_to_df import get_df_from_s3_bucket
 
 
