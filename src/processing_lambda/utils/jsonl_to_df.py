@@ -2,7 +2,11 @@ import boto3
 import pandas as pd
 import io
 from botocore.exceptions import ClientError
-from src.custom_exceptions import *
+
+if __name__ == "lambda_handler":
+    from utils.custom_exceptions import *
+else:
+    from src.custom_exceptions import *
 
 tables = [
     "counterparty",

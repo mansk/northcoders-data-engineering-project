@@ -1,7 +1,12 @@
 import pandas as pd
-from src.custom_exceptions import ParameterNotFound
-from src.processing_lambda.utils.ssm import get_parameter, set_parameter
-from src.processing_lambda.utils.create_dim_date import create_dim_date
+if __name__ == "lambda_handler":
+    from utils.custom_exceptions import ParameterNotFound
+    from utils.ssm import get_parameter
+    from utils.create_dim_date import create_dim_date
+else:
+    from src.custom_exceptions import ParameterNotFound
+    from src.processing_lambda.utils.ssm import get_parameter
+    from src.processing_lambda.utils.create_dim_date import create_dim_date
 
 LAST_SALES_RECORD_ID_PARAM = "last_sales_record_id"
 

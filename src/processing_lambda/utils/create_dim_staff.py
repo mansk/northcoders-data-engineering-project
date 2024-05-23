@@ -1,5 +1,9 @@
 import pandas as pd
-from src.processing_lambda.utils.jsonl_to_df import get_df_from_s3_bucket
+
+if __name__ == "lambda_handler":
+    from utils.jsonl_to_df import get_df_from_s3_bucket
+else:
+    from src.processing_lambda.utils.jsonl_to_df import get_df_from_s3_bucket
 
 
 def create_dim_staff(df: pd.DataFrame):
