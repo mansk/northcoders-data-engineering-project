@@ -10,3 +10,4 @@ requirements.txt
 .pytest_cache
 zip/
 .coverage
+.DS_Store
