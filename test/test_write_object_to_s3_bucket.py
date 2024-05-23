@@ -8,7 +8,7 @@ from src.custom_exceptions import NoSuchBucket
 import io
 import pandas as pd
 from src.processing_lambda.utils.filter_dataframe import (
-    filter_and_convert_dataframe_to_parquet,
+    convert_dataframe_to_parquet,
 )
 
 
@@ -111,7 +111,7 @@ def test_write_object_to_s3_bucket_correctly_writes_binary_data(
         },
         index=list("abc"),
     )
-    parquet_data = filter_and_convert_dataframe_to_parquet(df, ["one", "two", "three"])
+    parquet_data = convert_dataframe_to_parquet(df)
 
     write_object_to_s3_bucket(bucket_name, file_key, parquet_data, binary=True)
 
