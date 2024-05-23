@@ -7,7 +7,7 @@ from src.write_object_to_s3_bucket import write_object_to_s3_bucket
 from src.custom_exceptions import NoSuchBucket
 import io
 import pandas as pd
-from src.processing_lambda.utils.filter_dataframe import (
+from src.processing_lambda.utils.convert_dataframe import (
     convert_dataframe_to_parquet,
 )
 

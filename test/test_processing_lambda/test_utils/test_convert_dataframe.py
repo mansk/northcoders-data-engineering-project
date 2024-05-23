@@ -1,4 +1,4 @@
-from src.processing_lambda.utils.filter_dataframe import convert_dataframe_to_parquet
+from src.processing_lambda.utils.convert_dataframe import convert_dataframe_to_parquet
 import io
 import pandas as pd
 import pytest
