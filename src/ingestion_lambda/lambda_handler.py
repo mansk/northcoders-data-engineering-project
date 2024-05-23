@@ -72,16 +72,16 @@ def lambda_handler(event: dict, context):
         raise ClientError(e.response, e.operation_name)
 
     tables = [
+        "address",
         "counterparty",
         "currency",
         "department",
         "design",
-        "staff",
-        "sales_order",
-        "address",
         "payment",
-        "purchase_order",
         "payment_type",
+        "purchase_order",
+        "sales_order",
+        "staff",
         "transaction",
     ]
 
