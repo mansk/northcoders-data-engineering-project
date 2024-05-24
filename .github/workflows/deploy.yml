@@ -5,6 +5,13 @@ on:
     branches:
       - loading_to_sql
 
+env:
+  PGUSER: postgres
+  PGPASSWORD: password
+  PGHOST: localhost
+  PGPORT: 5432
+  PGDATABASE: testloading
+
 jobs:
   run-tests:
     name: run-tests
@@ -22,8 +29,10 @@ jobs:
           aws-region: ${{secrets.AWS_REGION}}
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
           aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-      - name: Check for postgres
-        run: psql --version
+      - name: Create testloading db in local PostgreSQL
+        run: createdb testloading
+      - name: Check environment variable
+        run: echo $PGDATABASE
       - name: Install Make
         run: sudo apt install make -y
       - name: Install requirements
