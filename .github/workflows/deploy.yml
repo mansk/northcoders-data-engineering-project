@@ -7,7 +7,6 @@ on:
 
 env:
   PGUSER: postgres
-  PGPASSWORD: password
   PGHOST: localhost
   PGPORT: 5432
   PGDATABASE: testloading
