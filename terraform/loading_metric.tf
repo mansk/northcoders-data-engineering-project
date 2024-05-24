@@ -1,7 +1,14 @@
+resource "aws_cloudwatch_log_group" "loading_log_group" {
+  name = "/aws/lambda/${aws_lambda_function.loading_lambda.function_name}"
+}
+
+
+
 resource "aws_cloudwatch_log_metric_filter" "loading_metric_filter" {
   name           = "Error-filter"
   pattern        = "ERROR"
   log_group_name = "/aws/lambda/${aws_lambda_function.loading_lambda.function_name}"
+  depends_on     = [aws_cloudwatch_log_group.loading_log_group]
 
   metric_transformation {
     name      = "EventCount"
@@ -9,6 +16,8 @@ resource "aws_cloudwatch_log_metric_filter" "loading_metric_filter" {
     value     = "1"
   }
 }
+
+
 
 
 resource "aws_cloudwatch_metric_alarm" "loading_metric_" {

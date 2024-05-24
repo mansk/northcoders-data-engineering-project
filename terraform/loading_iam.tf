@@ -28,14 +28,14 @@ resource "aws_iam_policy" "loading_lambda_read_processed_s3_policy" {
           "s3:GetObject"
         ]
         Effect   = "Allow"
-        Resource = "${aws_s3_bucket.loading_bucket.arn}/*"
+        Resource = "${aws_s3_bucket.processed_bucket.arn}/*"
       },
       {
         Action = [
           "s3:ListBucket"
         ]
         Effect   = "Allow"
-        Resource = "${aws_s3_bucket.loading_bucket.arn}"
+        Resource = "${aws_s3_bucket.processed_bucket.arn}"
       }
     ]
   })
@@ -44,7 +44,7 @@ resource "aws_iam_policy" "loading_lambda_read_processed_s3_policy" {
 # Define IAM policy attachment to attach read_loading_lambda_s3_policy
 resource "aws_iam_role_policy_attachment" "loading_lambda_read_loading_s3_policy_attachment" {
   role       = aws_iam_role.loading_lambda_role.name
-  policy_arn = aws_iam_policy.loading_lambda_read_loading_s3_policy.arn
+  policy_arn = aws_iam_policy.loading_lambda_read_processed_s3_policy.arn
 }
 
 
@@ -100,7 +100,7 @@ resource "aws_iam_policy" "loading_lambda_secrets_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_secrets_policy_attachment" {
+resource "aws_iam_role_policy_attachment" "loading_secrets_policy_attachment" {
   role       = aws_iam_role.loading_lambda_role.name
   policy_arn = aws_iam_policy.loading_lambda_secrets_policy.arn
 }
