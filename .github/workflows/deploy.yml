@@ -29,10 +29,12 @@ jobs:
           aws-region: ${{secrets.AWS_REGION}}
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
           aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+      - name: Start postgresql service
+        run: sudo systemctl start postgresql
       - name: Check postgresql service status
         run: sudo systemctl status postgresql
-      # - name: Create testloading db in local PostgreSQL
-      #   run: createdb testloading
+      - name: Create testloading db in local PostgreSQL
+        run: createdb testloading
       - name: Check environment variable
         run: echo $PGDATABASE
       - name: Install Make
