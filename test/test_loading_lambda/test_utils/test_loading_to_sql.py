@@ -11,7 +11,7 @@ from sqlalchemy import create_engine, text
 @pytest.fixture
 def db_con():
 
-    load_dotenv(override=True)
+    load_dotenv()
     db_string = sa.engine.url.URL.create(
         drivername="postgresql+pg8000",
         username=os.environ["PGUSER"],
