@@ -34,7 +34,7 @@ jobs:
       - name: Check postgresql service status
         run: sudo systemctl status postgresql
       - name: Try changing postgres password
-        run: sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgresql';"
+        run: sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
       - name: Create testloading db in local PostgreSQL
         run: createdb testloading
       - name: Check environment variable
