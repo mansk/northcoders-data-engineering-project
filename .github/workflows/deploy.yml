@@ -29,8 +29,6 @@ jobs:
           aws-region: ${{secrets.AWS_REGION}}
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
           aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-      - name: List contents of src/pandas_layer
-        run: ls -al src/pandas_layer
       - name: Start postgresql service
         run: sudo systemctl start postgresql
       - name: Set postgres password
@@ -61,6 +59,15 @@ jobs:
             aws-region: ${{secrets.AWS_REGION}}
             aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
             aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        - name: Remove contents of src/pyarrow_layer/python
+          run: rm -rf src/pyarrow_layer/python/*
+        - name: Download pyarrow wheel file
+          run: wget -P src/pyarrow_layer/python/ https://files.pythonhosted.org/packages/d2/34/4e3c04e7398764e56ef00f8f267f8ebf565808478f5fee850cef4be670c3/pyarrow-16.1.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+        - name: Unzip pyarrow wheel file
+          working-directory: src/pyarrow-layer/python
+          run: unzip pyarrow-16.1.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+        - name: Delete pyarrow wheel file
+          run: rm src/pyarrow-layer/python/pyarrow-16.1.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
         - name: Install Terraform
           uses: hashicorp/setup-terraform@v3
         - name: Terraform init
