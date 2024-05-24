@@ -39,10 +39,8 @@ def test_loading_to_sql_writes_to_database(patched_get_db_creds, db_con):
         con.execute(text(f"DROP TABLE IF EXISTS test;"))
         con.commit()
 
-    sql = "SELECT * FROM test"
-
     loading_to_sql("test", db_con, df)
-    output = pd.read_sql(sql, con=db_con)
+    output = pd.read_sql("SELECT * FROM test", con=db_con)
 
     assert output.shape == (3, 2)
     assert list(output.columns) == ["col1", "col2"]
