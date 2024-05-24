@@ -19,6 +19,9 @@ def get_database_credentials(secret_id):
         username = get_database_credentials("db_secret_id")["username"]
         password = get_database_credentials("db_secret_id")["password"]
         port = get_database_credentials("db_secret_id")["port"]
+
+        For accessing warehouse schema in data warehouse:
+        schema = get_database_credentials("db_secret_id")["schema"]
     """
     sm_client = boto3.client("secretsmanager")
     try:
