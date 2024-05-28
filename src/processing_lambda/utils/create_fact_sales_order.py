@@ -1,15 +1,9 @@
 import pandas as pd
 
 try:
-    from utils.custom_exceptions import ParameterNotFound
-    from utils.ssm import get_parameter
     from utils.create_dim_date import create_dim_date
 except ModuleNotFoundError:
-    from src.custom_exceptions import ParameterNotFound
-    from src.processing_lambda.utils.ssm import get_parameter
     from src.processing_lambda.utils.create_dim_date import create_dim_date
-
-LAST_SALES_RECORD_ID_PARAM = "last_sales_record_id"
 
 
 def create_fact_sales_order(df: pd.DataFrame):
@@ -48,17 +42,6 @@ def create_fact_sales_order(df: pd.DataFrame):
     df["last_updated_date"] = updated_datetime.dt.date
     df["last_updated_time"] = updated_datetime.dt.time
 
-    try:
-        last_sales_record_id = get_parameter(LAST_SALES_RECORD_ID_PARAM)
-        last_sales_record_id = int(last_sales_record_id)
-
-    except ParameterNotFound:
-        last_sales_record_id = 0
-
-    df["sales_record_id"] = range(
-        last_sales_record_id + 1, last_sales_record_id + df.shape[0] + 1
-    )
-
     # find unique dates in dataframe
     date_series = pd.concat(
         [
@@ -75,7 +58,6 @@ def create_fact_sales_order(df: pd.DataFrame):
     return (
         df[
             [
-                "sales_record_id",
                 "sales_order_id",
                 "created_date",
                 "created_time",

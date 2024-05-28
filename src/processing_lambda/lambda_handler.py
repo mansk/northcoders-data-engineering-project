@@ -3,25 +3,16 @@ import datetime
 
 if __name__ == "lambda_handler":
     from utils.write_object_to_s3_bucket import write_object_to_s3_bucket
-    from utils.convert_dataframe import (
-        convert_dataframe_to_parquet,
-    )
-    from utils.read_ingestion_object_to_df import (
-        read_object_into_dataframe,
-    )
+    from utils.convert_dataframe import convert_dataframe_to_parquet
+    from utils.read_ingestion_object_to_df import read_object_into_dataframe
     from utils.create_dim_design_transaction_payment import (
         drop_update_created_at_two_columns,
     )
     from utils.create_dim_staff import create_dim_staff
     from utils.create_dim_counterparty import create_dim_counterparty
     from utils.create_dim_currency import create_dim_currency
-    from utils.create_dim_date import create_dim_date
     from utils.create_dim_location import create_dim_location
-    from utils.create_fact_sales_order import (
-        create_fact_sales_order,
-        LAST_SALES_RECORD_ID_PARAM,
-    )
-    from utils.ssm import set_parameter
+    from utils.create_fact_sales_order import create_fact_sales_order
 else:
     from src.processing_lambda.utils.write_object_to_s3_bucket import (
         write_object_to_s3_bucket,
@@ -40,16 +31,13 @@ else:
         create_dim_counterparty,
     )
     from src.processing_lambda.utils.create_dim_currency import create_dim_currency
-    from src.processing_lambda.utils.create_dim_date import create_dim_date
     from src.processing_lambda.utils.create_dim_location import create_dim_location
     from src.processing_lambda.utils.create_fact_sales_order import (
         create_fact_sales_order,
-        LAST_SALES_RECORD_ID_PARAM,
     )
-    from src.processing_lambda.utils.ssm import set_parameter
 
 
-def lambda_handler(event, context):
+def lambda_handler(event, _):
     """Process JSON Lines files from the ingestion bucket and write transformed data to the processed bucket."""
 
     table_prefixes = {
@@ -146,9 +134,6 @@ def lambda_handler(event, context):
         logger.info(
             f"Successfully processed and wrote file to s3://{processed_bucket}/{table_prefixes[table_name]}"
         )
-
-        if table_name == "sales_order":
-            set_parameter(LAST_SALES_RECORD_ID_PARAM, str(df["sales_record_id"].max()))
 
     except Exception as e:
         logger.error(f"Error writing parquet data to processed s3 bucket: {e}")

@@ -1,4 +1,3 @@
-from unittest.mock import patch
 import pandas as pd
 import pytest
 from src.processing_lambda.utils.create_fact_sales_order import create_fact_sales_order
@@ -34,7 +33,6 @@ def test_create_fact_sales_order_returns_two_dataframes(dummy_sales_order_df):
 
 def test_create_fact_sales_order_returns_df_with_expected_columns(dummy_sales_order_df):
     expected_cols = [
-        "sales_record_id",
         "sales_order_id",
         "created_date",
         "created_time",
@@ -58,7 +56,6 @@ def test_create_fact_sales_order_returns_df_with_expected_columns(dummy_sales_or
 
 def test_create_fact_sales_order_returns_df_with_correct_types(dummy_sales_order_df):
     types = {
-        "sales_record_id": int,
         "sales_order_id": int,
         "created_date": datetime.date,
         "created_time": datetime.time,

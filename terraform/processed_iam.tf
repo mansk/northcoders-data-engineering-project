@@ -48,12 +48,6 @@ resource "aws_iam_role_policy_attachment" "processed_lambda_read_ingestion_s3_po
 }
 
 
-
-
-
-
-
-
 # Define IAM policy processed lambda to write to processed s3
 resource "aws_iam_policy" "processed_lambda_write_to_processed_s3_policy" {
   name        = "${var.team_prefix}processed_lambda_write_to_processed_s3_policy"
@@ -77,14 +71,6 @@ resource "aws_iam_role_policy_attachment" "processed_lambda_write_s3_policy_atta
   role       = aws_iam_role.processed_lambda_role.name
   policy_arn = aws_iam_policy.processed_lambda_write_to_processed_s3_policy.arn
 }
-
-
-
-
-
-
-
-
 
 
 # Define IAM policy for processing lambda to write logs
@@ -117,30 +103,4 @@ resource "aws_iam_policy" "processed_lambda_logs_policy" {
 resource "aws_iam_role_policy_attachment" "processed_lambda_logs_attachment" {
   role       = aws_iam_role.processed_lambda_role.name
   policy_arn = aws_iam_policy.processed_lambda_logs_policy.arn
-}
-
-
-# Define IAM policy for processing lambda to access SSM
-resource "aws_iam_policy" "processed_lambda_ssm_policy" {
-  name        = "${var.team_prefix}processed-lambda-ssm-policy"
-  description = "Policy for lambda to read/write to ssm"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "ssm:PutParameter",
-          "ssm:GetParameter"
-        ]
-        Effect   = "Allow"
-        Resource = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter/*"
-      },
-    ]
-  })
-}
-
-# Attach SSM policy access to processing lambda role
-resource "aws_iam_role_policy_attachment" "processed_lambda_ssm_policy_attachment" {
-  role       = aws_iam_role.processed_lambda_role.name
-  policy_arn = aws_iam_policy.processed_lambda_ssm_policy.arn
 }
