@@ -3,11 +3,11 @@ import logging
 if __name__ == "lambda_handler":
     from utils.loading_to_sql import loading_to_sql
     from utils.read_processed_object_to_df import read_processed_into_df
-    from utils.connect import connect_db
+    from utils.connect_dw import connect_dw
 else:
     from src.loading_lambda.utils.loading_to_sql import loading_to_sql
     from src.loading_lambda.utils.read_processed_object_to_df import read_processed_into_df 
-    from src.connect import connect_db
+    from src.loading_lambda.utils.connect_dw import connect_dw
 
 def lambda_handler(event, context):
     logger = logging.getLogger()
@@ -28,7 +28,7 @@ def lambda_handler(event, context):
 
     conn = None
     try:
-        conn = connect_db("data_warehouse_credentials")
+        conn = connect_dw("data_warehouse_credentials")
     except Exception as e:
         logger.error(e)    
         raise 
