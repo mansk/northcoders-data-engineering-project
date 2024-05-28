@@ -94,7 +94,7 @@ resource "aws_iam_policy" "loading_lambda_secrets_policy" {
           "secretsmanager:GetSecretValue"
         ]
         Effect   = "Allow"
-        Resource = "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:database_credentials*"
+        Resource = "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:data_warehouse_credentials*"
       },
     ]
   })
