@@ -5,7 +5,8 @@ resource "aws_lambda_function" "loading_lambda" {
   role             = aws_iam_role.loading_lambda_role.arn
   handler          = "lambda_handler.lambda_handler"
   layers           = [aws_lambda_layer_version.lambda_layer.arn,
-                      aws_lambda_layer_version.pandas_lambda_layer.arn]
+                      aws_lambda_layer_version.pandas_lambda_layer.arn,
+                      aws_lambda_layer_version.pyarrow_lambda_layer.arn]
   runtime          = "python3.11"
   timeout          = 60
 }
