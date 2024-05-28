@@ -26,7 +26,7 @@ def event():
 def test_lambda_handler_logs_error_read_data(caplog,event):
     caplog.set_level(logging.ERROR)
     with (
-        patch("src.loading_lambda.lambda_handler.connect_db") as mock_conn,
+        patch("src.loading_lambda.lambda_handler.connect_dw") as mock_conn,
         patch("src.loading_lambda.lambda_handler.loading_to_sql") as mock_loading_to_sql,
         patch("src.loading_lambda.lambda_handler.read_processed_into_df") as mock_read_to_df
     ):
@@ -37,7 +37,7 @@ def test_lambda_handler_logs_error_read_data(caplog,event):
 def test_lambda_handler_logs_error_loading_into_sql(caplog, event):
     caplog.set_level(logging.ERROR)
     with (
-        patch("src.loading_lambda.lambda_handler.connect_db") as mock_conn,
+        patch("src.loading_lambda.lambda_handler.connect_dw") as mock_conn,
         patch("src.loading_lambda.lambda_handler.loading_to_sql") as mock_loading_to_sql,
         patch("src.loading_lambda.lambda_handler.read_processed_into_df") as mock_read_to_df
     ):  
@@ -50,7 +50,7 @@ def test_lambda_handler_logs_error_loading_into_sql(caplog, event):
 def test_lambda_handler_logs_successful(caplog, event):
     caplog.set_level(logging.INFO)
     with (
-        patch("src.loading_lambda.lambda_handler.connect_db") as mock_conn,
+        patch("src.loading_lambda.lambda_handler.connect_dw") as mock_conn,
         patch("src.loading_lambda.lambda_handler.loading_to_sql") as mock_loading_to_sql,
         patch("src.loading_lambda.lambda_handler.read_processed_into_df") as mock_read_to_df
     ):  

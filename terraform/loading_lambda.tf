@@ -6,7 +6,8 @@ resource "aws_lambda_function" "loading_lambda" {
   handler          = "lambda_handler.lambda_handler"
   layers           = [aws_lambda_layer_version.lambda_layer.arn,
                       aws_lambda_layer_version.pandas_lambda_layer.arn,
-                      aws_lambda_layer_version.pyarrow_lambda_layer.arn]
+                      aws_lambda_layer_version.pyarrow_lambda_layer.arn,
+                      aws_lambda_layer_version.sqlalchemy_layer.arn]
   runtime          = "python3.11"
   timeout          = 60
 }
@@ -18,16 +19,16 @@ data "archive_file" "lambda_loading_source" {
 }
 
 
-# data "archive_file" "loading_lambda_layer_zip" {
-#   type        = "zip"
-#   output_path = "${path.module}/../zip/layer.zip"
-#   source_dir  = "${path.module}/../src/packages/"
-# }
+data "archive_file" "sqlalchemy_zip" {
+  type        = "zip"
+  output_path = "${path.module}/../zip/sqlalchemy.zip"
+  source_dir  = "${path.module}/../src/sqlalchemy_layer/"
+}
 
-# resource "aws_lambda_layer_version" "lambda_layer" {
-#   filename            = "${path.module}/../zip/layer.zip"
-#   layer_name          = "pg8000_layer"
-#   source_code_hash    = data.archive_file.lambda_layer_zip.output_base64sha256
-#   compatible_runtimes = ["python3.11"]
-# }
+resource "aws_lambda_layer_version" "sqlalchemy_layer" {
+  filename            = "${path.module}/../zip/sqlalchemy.zip"
+  layer_name          = "sqlalchemy_layer"
+  source_code_hash    = data.archive_file.sqlalchemy_zip.output_base64sha256
+  compatible_runtimes = ["python3.11"]
+}
 
