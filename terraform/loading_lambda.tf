@@ -4,7 +4,8 @@ resource "aws_lambda_function" "loading_lambda" {
   source_code_hash = data.archive_file.lambda_loading_source.output_base64sha256
   role             = aws_iam_role.loading_lambda_role.arn
   handler          = "lambda_handler.lambda_handler"
-  layers           = [aws_lambda_layer_version.lambda_layer.arn]
+  layers           = [aws_lambda_layer_version.lambda_layer.arn,
+                      aws_lambda_layer_version.pandas_lambda_layer.arn]
   runtime          = "python3.11"
   timeout          = 60
 }
