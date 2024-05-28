@@ -5,6 +5,13 @@ on:
     branches:
       - main
 
+env:
+  PGUSER: postgres
+  PGPASSWORD: postgres
+  PGHOST: localhost
+  PGPORT: 5432
+  PGDATABASE: testloading
+
 jobs:
   run-tests:
     name: run-tests
@@ -12,7 +19,7 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-      - name: Set python
+      - name: Set up python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11.1"
@@ -22,8 +29,14 @@ jobs:
           aws-region: ${{secrets.AWS_REGION}}
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
           aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+      - name: Start postgresql service
+        run: sudo systemctl start postgresql
+      - name: Set postgres password
+        run: sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+      - name: Create testloading db in local PostgreSQL
+        run: createdb testloading
       - name: Install Make
-        run: sudo apt install make -y
+        run: sudo apt-get install make -y
       - name: Install requirements
         run: make requirements
       - name: Dev-setup
@@ -46,6 +59,15 @@ jobs:
             aws-region: ${{secrets.AWS_REGION}}
             aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
             aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        - name: Remove contents of src/pyarrow_layer/python
+          run: rm -rf src/pyarrow_layer/python/*
+        - name: Download pyarrow wheel file
+          run: wget -P src/pyarrow_layer/python/ https://files.pythonhosted.org/packages/d2/34/4e3c04e7398764e56ef00f8f267f8ebf565808478f5fee850cef4be670c3/pyarrow-16.1.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+        - name: Unzip pyarrow wheel file
+          working-directory: src/pyarrow_layer/python
+          run: unzip pyarrow-16.1.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+        - name: Delete pyarrow wheel file
+          run: rm src/pyarrow_layer/python/pyarrow-16.1.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
         - name: Install Terraform
           uses: hashicorp/setup-terraform@v3
         - name: Terraform init
