@@ -9,7 +9,7 @@ resource "aws_lambda_function" "loading_lambda" {
                       aws_lambda_layer_version.pyarrow_lambda_layer.arn,
                       aws_lambda_layer_version.sqlalchemy_layer.arn]
   runtime          = "python3.11"
-  timeout          = 300
+  timeout          = 900
 }
 
 data "archive_file" "lambda_loading_source" {
