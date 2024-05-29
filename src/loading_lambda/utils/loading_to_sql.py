@@ -20,14 +20,16 @@ def loading_to_sql(table_name, conn, df):
     schema = get_database_credentials("data_warehouse_credentials")["schema"]
 
     try:
-        df.to_sql(
+        rows_written = df.to_sql(
             name=table_name,
             con=conn,
             index=False,
             if_exists="append",
+            chunksize=4000,
             schema=schema,
             method=postgres_insert
         )
+        return rows_written
 
     except Exception as e:
         raise
@@ -39,4 +41,5 @@ def postgres_insert(table, conn, keys, data_iter):
 
     insert_statement = insert(table.table).values(data)
     ignore_statement = insert_statement.on_conflict_do_nothing()
-    conn.execute(ignore_statement)
+    result = conn.execute(ignore_statement)
+    return result.rowcount
