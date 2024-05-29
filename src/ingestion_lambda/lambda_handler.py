@@ -77,12 +77,12 @@ def lambda_handler(event: dict, context):
         "currency",
         "department",
         "design",
-        "payment",
         "payment_type",
+        "staff",
         "purchase_order",
         "sales_order",
-        "staff",
         "transaction",
+        "payment",
     ]
 
     conn = None
