@@ -14,6 +14,7 @@ if __name__ == "lambda_handler":
     from utils.create_dim_location import create_dim_location
     from utils.create_fact_sales_order import create_fact_sales_order
     from utils.create_fact_payment import create_fact_payment
+    from utils.create_fact_purchase_order import create_fact_purchase_order
 else:
     from src.processing_lambda.utils.write_object_to_s3_bucket import (
         write_object_to_s3_bucket,
@@ -37,6 +38,7 @@ else:
         create_fact_sales_order,
     )
     from src.processing_lambda.utils.create_fact_payment import create_fact_payment
+    from src.processing_lambda.utils.create_fact_purchase_order import create_fact_purchase_order
 
 
 def lambda_handler(event, _):
@@ -89,8 +91,7 @@ def lambda_handler(event, _):
     elif table_name == "payment":
         df, date_df = create_fact_payment(ingested_data_frame)
     elif table_name == "purchase_order":
-        logging.info(f"Skipping data for table {table_name}")
-        return None
+        df, date_df = create_fact_purchase_order(ingested_data_frame)
     elif table_name == "sales_order":
         df, date_df = create_fact_sales_order(ingested_data_frame)
     elif table_name == "staff":
