@@ -3,7 +3,7 @@ name: de-watershed-ci/cd
 on:
   push:
     branches:
-      - main
+      - loadinglambda
 
 env:
   PGUSER: postgres
