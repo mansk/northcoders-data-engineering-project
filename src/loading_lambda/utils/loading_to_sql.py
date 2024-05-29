@@ -26,7 +26,17 @@ def loading_to_sql(table_name, conn, df):
             index=False,
             if_exists="append",
             schema=schema,
+            method=postgres_insert
         )
 
     except Exception as e:
         raise
+
+def postgres_insert(table, conn, keys, data_iter):
+    from sqlalchemy.dialects.postgresql import insert
+
+    data = [dict(zip(keys, row)) for row in data_iter]
+
+    insert_statement = insert(table.table).values(data)
+    ignore_statement = insert_statement.on_conflict_do_nothing()
+    conn.execute(ignore_statement)

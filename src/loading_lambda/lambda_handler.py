@@ -39,9 +39,9 @@ def lambda_handler(event, context):
         loading_to_sql(table_name, conn, df)
     except Exception as e:
         logger.error(f"Error writing into warehouse from dataframe. {e}")
-    finally: 
-        if conn:
-            conn.close()        
+    # finally: 
+    #     if conn:
+    #         conn.close()        
 
 
     logger.info(f"Successfully wrote {df.shape[0]} rows into {table_name} warehouse")   
