@@ -54,6 +54,7 @@ def test_lambda_handler_logs_successful(caplog, event):
         patch("src.loading_lambda.lambda_handler.loading_to_sql") as mock_loading_to_sql,
         patch("src.loading_lambda.lambda_handler.read_processed_into_df") as mock_read_to_df
     ):  
+        mock_loading_to_sql.return_value = 5
         mock_read_to_df.return_value = pd.DataFrame()
         lambda_handler(event,None)
-    assert f"Successfully wrote 0 rows into mock_table_name warehouse" in caplog.text
+    assert f"Wrote 5 rows into mock_table_name warehouse" in caplog.text
